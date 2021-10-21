@@ -1,7 +1,7 @@
 <?php
 include_once 'models/usersModel.php';
 include_once 'models/DBConnection.php';
-include_once 'models/adminModel.php';
+include_once 'models/productsModel.php';
 include_once 'controller/adminController.php';
 session_start();
 $id = $_SESSION['id'] ?? null;

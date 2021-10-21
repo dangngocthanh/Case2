@@ -5,17 +5,37 @@ class adminController
 
     function __construct()
     {
-        $this->adminConnect = new adminModel();
+        $this->usersConnect = new usersModel();
+        $this->productsConnect = new productsModel();
     }
 
-    function ProductManager()
+    function UsersManager()
     {
-        $users = $this->adminConnect->selectAllUsers();
+        $users = $this->usersConnect->selectAllUsers();
         include('view/Admin/usersList.php');
     }
+
     function DeleteUser($id)
     {
-         $this->adminConnect->deleteUser($id);
+        $this->usersConnect->deleteUser($id);
     }
+
+    function DeleteProduct($id)
+    {
+        $this->productsConnect->deleteProduct($id);
+    }
+
+    function ProductsManager()
+    {
+        $products = $this->productsConnect->selectAllProducts();
+        include('view/Admin/productsList.php');
+    }
+
+    function AddProduct()
+    {
+        header('location: addProducts.php');
+    }
+
+
 
 }

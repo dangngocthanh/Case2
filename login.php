@@ -26,8 +26,8 @@
                 <label for="">Password</label>
                 <input type="password" name="password" required class="form-control">
             </div>
-            <button type="submit" class="btn btn-primary ">Sign up</button>
-            <a type="submit" class="btn btn-primary" href="register.php">Register</a>
+            <button type="submit" class="btn btn-primary ">Login</button>
+            <a type="submit" class="btn btn-primary" href="register.php">Sign up</a>
         </form>
     </div>
 </div>
@@ -54,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         session_start();
         $_SESSION['id'] = $user['id'];
         $_SESSION['role'] = $user['role'];
+        $_SESSION['name'] = $user['name'];
         header('location: index.php');
     } else {
         echo 'Wrong account or password';

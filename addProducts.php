@@ -1,3 +1,15 @@
+<?php
+include_once 'models/DBConnection.php';
+include_once 'models/productsModel.php';
+include_once 'controller/adminController.php';
+session_start();
+$role = $_SESSION['role'] ?? null;
+$id = $_SESSION['id'] ?? null;
+if ($role==1 or empty($id)) {
+header('location: login.php');
+}
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,25 +23,23 @@
 </head>
 <body>
 <div class="container">
-    <h3>Sign Up</h3>
+    <h3>Add Products</h3>
     <form method="post" enctype='multipart/form-data'>
         <div class="form-group">
-            <label for="">Account</label>
-            <input type="text" name="account" required class="form-control">
-            <label for="">Password</label>
-            <input type="password" name="password" required class="form-control">
-            <label for="">Your Name</label>
+            <label for="">Products name</label>
             <input type="text" name="name" required class="form-control">
-            <label for="">Email</label>
-            <input type="email" name="email" required class="form-control">
-            <label for="">Phone</label>
-            <input type="text" name="phone" required class="form-control">
-            <label for="">Address</label>
-            <input type="text" name="address" required class="form-control">
+            <label for="">Information</label>
+            <input type="text" name="information" required class="form-control">
+            <label for="">Quantity</label>
+            <input type="number" name="quantity" required class="form-control">
+            <label for="">Price</label>
+            <input type="number" name="price" required class="form-control">
             <label for="">Image</label>
             <input type="file" name="fileToUpload" id="fileToUpload" required class="form-control">
+            <label for="">Brand</label>
+            <input type="text" name="brand" required class="form-control">
         </div>
-        <button type="submit" class="btn btn-primary">Sign up</button>
+        <button type="submit" class="btn btn-primary">Add</button>
     </form>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -44,21 +54,18 @@
 </body>
 </html>
 <?php
-include_once 'models/usersModel.php';
-include_once 'models/DBConnection.php';
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $user['account'] = $_POST['account'];
-    $user['password'] = $_POST['password'];
-    $user['name'] = $_POST['name'];
-    $user['email'] = $_POST['email'];
-    $user['phone'] = $_POST['phone'];
-    $user['address'] = $_POST['address'];
-    $user['image'] = $_FILES['fileToUpload']['name'];
+    $product['name'] = $_POST['name'];
+    $product['information'] = $_POST['information'];
+    $product['quantity'] = $_POST['quantity'];
+    $product['price'] = $_POST['price'];
+    $product['brand'] = $_POST['brand'];
+    $product['image'] = $_FILES['fileToUpload']['name'];
+    echo $product['image'];
 
     $check = 0;
     $upload = 1;
-    $target_dir = __DIR__ . '/upload/' . $_FILES['fileToUpload']['name'];
+    $target_dir = __DIR__ . '/productsImg/' . $_FILES['fileToUpload']['name'];
     $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
     if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
@@ -68,38 +75,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $file = $_FILES["fileToUpload"]["tmp_name"];
     if ($upload == 1) {
         if (move_uploaded_file($file, $target_dir)) {
-//                echo "The file " . htmlspecialchars(basename($_FILES["fileToUpload"]["name"])) . " has been uploaded.";
             $check++;
         }
     }
 
-    function CheckClassName($user,$check)
+    function CheckClassName($product, $check)
     {
-        $account = '/[_\w]{6,50}/';
-        $email = '/^[A-Za-z0-9]+[A-Za-z0-9]*@[A-Za-z0-9]+(\.[A-Za-z0-9]+)$/';
-        $phone = '/^0\d{9}/';
-        if (preg_match($account, $user['account'])) {
+        if (!empty($product['name'])) {
             $check++;
         }
-        if (preg_match($email, $user['email'])) {
+        if (!empty($product['information'])) {
             $check++;
         }
-        if (!empty($user['name'])) {
+        if (!empty($product['quantity'])) {
             $check++;
         }
-        if (preg_match($phone, $user['phone'])) {
+        if (!empty($product['price'])) {
             $check++;
         }
-        if (!empty($user['password'])) {
+        if (!empty($product['brand'])) {
             $check++;
         }
-        if (!empty($user['address'])) {
-            $check++;
-        }
-        if ($check == 7) {
-            $addUser = new usersModel();
-            $addUser->addUser($user);
-            header('location: login.php');
+
+        if ($check == 6) {
+            $addProduct = new productsModel();
+            $addProduct->addProduct($product);
+            header('location: index.php?page=productsManager');
 
         } else {
             echo 'loi';
@@ -107,6 +108,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     }
 
-    CheckClassName($user,$check);
+    CheckClassName($product, $check);
 }
 ?>
