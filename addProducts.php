@@ -5,8 +5,8 @@ include_once 'controller/adminController.php';
 session_start();
 $role = $_SESSION['role'] ?? null;
 $id = $_SESSION['id'] ?? null;
-if ($role==1 or empty($id)) {
-header('location: login.php');
+if ($role == 1 or empty($id)) {
+    header('location: login.php');
 }
 ?>
 
@@ -61,7 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $product['price'] = $_POST['price'];
     $product['brand'] = $_POST['brand'];
     $product['image'] = $_FILES['fileToUpload']['name'];
-    echo $product['image'];
 
     $check = 0;
     $upload = 1;
@@ -73,41 +72,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $upload = 0;
     }
     $file = $_FILES["fileToUpload"]["tmp_name"];
+
     if ($upload == 1) {
         if (move_uploaded_file($file, $target_dir)) {
             $check++;
         }
-    }
-
-    function CheckClassName($product, $check)
-    {
-        if (!empty($product['name'])) {
-            $check++;
-        }
-        if (!empty($product['information'])) {
-            $check++;
-        }
-        if (!empty($product['quantity'])) {
-            $check++;
-        }
-        if (!empty($product['price'])) {
-            $check++;
-        }
-        if (!empty($product['brand'])) {
-            $check++;
-        }
-
-        if ($check == 6) {
-            $addProduct = new productsModel();
-            $addProduct->addProduct($product);
-            header('location: index.php?page=productsManager');
-
-        } else {
-            echo 'loi';
-        }
 
     }
-
-    CheckClassName($product, $check);
+    if (!empty($product['name'])) {
+        $check++;
+    }
+    if (!empty($product['information'])) {
+        $check++;
+    }
+    if (!empty($product['quantity'])) {
+        $check++;
+    }
+    if (!empty($product['price'])) {
+        $check++;
+    }
+    if (!empty($product['brand'])) {
+        $check++;
+    }
+    if ($check == 6) {
+        $admin=new productsModel();
+        $admin->addProduct($product);
+        header('location: index.php?page=productsManager');
+    } else {
+        echo 'loi';
+    }
 }
 ?>

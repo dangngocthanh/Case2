@@ -20,7 +20,7 @@
             <td> <?php echo $product['name'] ?></td>
             <td> <?php echo $product['information'] ?></td>
             <td> <?php echo $product['quantity'] ?></td>
-            <td> <?php echo $product['price'] ?></td>
+            <td> <?php echo number_format($product['price']).' VND' ?></td>
             <td> <?php echo $product['brand'] ?></td>
             <td><img src="productsImg/<?php echo $product['image'] ?>"
                      style="width: 100px ;height:100px"></td>
@@ -32,3 +32,4 @@
         </tr>
     <?php endforeach; ?>
     </tbody>
+</table>

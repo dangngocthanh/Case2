@@ -2,7 +2,10 @@
 include_once 'models/usersModel.php';
 include_once 'models/DBConnection.php';
 include_once 'models/productsModel.php';
+include_once 'models/ordersModel.php';
+include_once 'models/historyModel.php';
 include_once 'controller/adminController.php';
+include_once 'controller/userController.php';
 session_start();
 $id = $_SESSION['id'] ?? null;
 if (empty($id)) {
@@ -20,7 +23,7 @@ if (empty($id)) {
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
-<body>
+<body style="background-color: #989f8c">
 <?php
 $role = $_SESSION['role'] ?? null;
 switch ($role) {

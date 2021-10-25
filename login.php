@@ -54,7 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         session_start();
         $_SESSION['id'] = $user['id'];
         $_SESSION['role'] = $user['role'];
-        $_SESSION['name'] = $user['name'];
         header('location: index.php');
     } else {
         echo 'Wrong account or password';
