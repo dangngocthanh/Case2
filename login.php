@@ -25,9 +25,11 @@
                 <input type="text" name="account" required class="form-control">
                 <label for="">Password</label>
                 <input type="password" name="password" required class="form-control">
+                <?php session_start(); $errol=$_SESSION['errol'] ?? null;
+                    echo '<p style="color: crimson">'.$errol.'</p>'; ?>
             </div>
-            <button type="submit" class="btn btn-primary ">Login</button>
-            <a type="submit" class="btn btn-primary" href="register.php">Sign up</a>
+            <button type="submit" class="btn btn-success mb-3 ml-3">Login</button>
+            <a type="submit" class=" mb-3 " style="margin-left: 350px" href="register.php">Register?</a>
         </form>
     </div>
 </div>
@@ -56,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['role'] = $user['role'];
         header('location: index.php');
     } else {
-        echo 'Wrong account or password';
+        $_SESSION['errol']='Wrong account or password';
     }
 }
 ?>

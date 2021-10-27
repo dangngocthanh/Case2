@@ -36,6 +36,7 @@
                     </div>
                     <div class="col-md-12">
                         <button class="btn btn-outline-success btn-sm mt-3">Update</button>
+                        <a href="index.php?page=profile" class="btn btn-outline-success btn-sm mt-3" type="submit">Cancel</a>
                     </div>
                 </div>
             </div>
